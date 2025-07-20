@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CARS 5
+
+// Define a structure to represent a car
+typedef struct {
+    char model[50];
+    char license_plate[15];
+    int is_available; // 1 for available, 0 for booked
+} Car;
+
+// Initialize the fleet of cars
+Car fleet[MAX_CARS] = {
+    {"Toyota Camry", "ABC123", 1},
+    {"Honda Accord", "XYZ789", 1},
+    {"Ford Focus", "LMN456", 1},
+    {"Chevrolet Malibu", "JKL012", 1},
+    {"Nissan Altima", "QRS345", 1}
+};
+
+// Function to display available cars
+void displayAvailableCars() {
+    printf("Available Cars:\n");
+    for (int i = 0; i < MAX_CARS; i++) {
+        if (fleet[i].is_available) {
+            printf("%d. %s - %s\n", i + 1, fleet[i].model, fleet[i].license_plate);
+        }
+    }
+}
+
+// Function to book a car
+void bookCar(int car_index) {
+    if (car_index < 0 || car_index >= MAX_CARS || !fleet[car_index].is_available) {
+        printf("Invalid selection or car not available.\n");
+        return;
+    }
+    
+    fleet[car_index].is_available = 0; // Mark the car as booked
+    printf("You have successfully booked the %s with license plate %s.\n", fleet[car_index].model, fleet[car_index].license_plate);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        displayAvailableCars();
+        printf("Enter the number of the car you want to book (0 to exit): ");
+        scanf("%d", &choice);
+
+        if (choice == 0) {
+            printf("Exiting the booking system.\n");
+            break;
+        }
+
+        bookCar(choice - 1); // Adjust for 0-based index
+    }
+
+    return 0;
+}
